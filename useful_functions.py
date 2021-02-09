@@ -92,15 +92,47 @@ def plot_histogram_error(data, size_per_sample, n_bins, heights, errors):
     bin_width = bins[1]-bins[0]
     total_area *= bin_width
 
+    xspace = np.linspace(0.0, np.amax(sample_new), 10000)
+    
     plt.figure(figsize=(8,8));
     plt.errorbar(bins_centers, heights/total_area, yerr= (1.96 * errors)/total_area, 
-                marker = 'o', markersize = 3.0 , linestyle = 'none', 
-                elinewidth = 0.5 , capsize=3.0) ; 
+                marker = 'o', markersize = 1.5 , linestyle = 'none', 
+                elinewidth = 0.5 , capsize=4.0 , capthick=0.5) ; 
     plt.yscale('log', basey=10);
     plt.ylabel("PDF", fontsize=14); 
-    plt.xlabel("$D/W$", fontsize=14)
+    plt.xlabel("$D/W$", fontsize=14);
 
- 
+    return bins_centers, heights/total_area , xspace
+
+
+def gauss(x, mu, sigma):
+    import numpy as np
+
+    return ( (1.0/(sigma*np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ((x - mu)/sigma)**2) )
+
+def gamma_n(x, a, b):
+    from scipy.special import gamma
+    import numpy as np
+    return ( (b**a/gamma(a)) * x**(a - 1.0) * np.exp(-1.0 * b * x) )
+
+def lognorm(x, mu_log, sigma_log):
+    import numpy as np
+    return ( (1.0/(x * sigma_log * np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ( (np.log(x) - mu_log)/sigma_log)**2) )
+
+
+def poisson(x, lam): 
+    import numpy as np
+    return (3.0 * x**2.0 * lam * np.exp(-1.0 * lam * x**3.0) )
+
+def fit(x,y, func):
+    from scipy.optimize import curve_fit
+
+    popt, pcov = curve_fit(func, xdata=x, ydata=y)
+    return popt, pcov
+  
+
+
+
 
     
 
