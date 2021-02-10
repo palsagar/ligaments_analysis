@@ -27,6 +27,16 @@ def time_slice(df, time):
     return array 
 
 
+def bin_selection(data, n_bins):
+
+    import numpy as np
+
+    bin_edges = np.linspace(0.0, np.amax(data), n_bins + 1)
+    bin_centers = np.array([0.5 * (bin_edges[i] + bin_edges[i+1]) for i in range(len(bin_edges)-1)])
+
+    return bin_edges , bin_centers
+
+
 # COMPUTATION OF ERROR BARS 
 
 # Lower level function : computes mean heights of histogram for 1 ensemble of samples
@@ -37,9 +47,11 @@ def ensemble_heights(data, size_per_sample, n_samples , n_bins):
     ensemble_list = [] # create the empty list for creating the ensemble
     mean_heights_ensemble = []
 
+    fixed_bin_edges , fixed_bin_centers = bin_selection(data, n_bins)
+
     for _ in range(n_samples): 
         sample_n = np.random.choice(data, size = size_per_sample)
-        heights_sample_n , bins_sample_n = np.histogram(sample_n, bins=n_bins)
+        heights_sample_n , bins_sample_n = np.histogram(sample_n, bins= fixed_bin_edges)
         ensemble_list.append(heights_sample_n)
 
     heights_ensemble = np.array(ensemble_list)
@@ -81,28 +93,31 @@ def plot_histogram_error(data, size_per_sample, n_bins, heights, errors):
     import matplotlib.pyplot as plt
 
     sample_new = np.random.choice(data, size = size_per_sample)
-    bins = np.linspace(0.0, np.amax(sample_new), n_bins + 1)
-    bins_centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins)-1)])
+    #bins = np.linspace(0.0, np.amax(sample_new), n_bins + 1)
+    #bins_centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins)-1)])
+
+    fixed_bin_edges , fixed_bin_centers = bin_selection(data, n_bins)
 
     total_area = 0.0
 
     for i in range(n_bins):
         total_area += heights[i]  
 
-    bin_width = bins[1]-bins[0]
+    #bin_width = bins[1]-bins[0]
+    bin_width = fixed_bin_edges[1] - fixed_bin_edges[0] 
     total_area *= bin_width
 
-    xspace = np.linspace(0.0, np.amax(sample_new), 10000)
+    xspace = np.linspace(0.0, np.amax(data), 10000)
     
-    plt.figure(figsize=(8,8));
-    plt.errorbar(bins_centers, heights/total_area, yerr= (1.96 * errors)/total_area, 
+    plt.figure(figsize=(6,6));
+    plt.errorbar(fixed_bin_centers, heights/total_area, yerr= (1.96 * errors)/total_area, 
                 marker = 'o', markersize = 1.5 , linestyle = 'none', 
                 elinewidth = 0.5 , capsize=4.0 , capthick=0.5) ; 
     plt.yscale('log', basey=10);
     plt.ylabel("PDF", fontsize=14); 
     plt.xlabel("$D/W$", fontsize=14);
 
-    return bins_centers, heights/total_area , xspace
+    return fixed_bin_centers, heights/total_area , xspace
 
 
 def gauss(x, mu, sigma):
