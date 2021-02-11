@@ -87,12 +87,12 @@ def ensemble_error_heights(n_bootstrap, data , size_per_sample , n_samples, n_bi
 
     return standard_error_mean_heights
 
-def plot_histogram_error(data, size_per_sample, n_bins, heights, errors):
+def plot_histogram_error(data, n_bins, heights, errors):
 
     import numpy as np
     import matplotlib.pyplot as plt
 
-    sample_new = np.random.choice(data, size = size_per_sample)
+    #sample_new = np.random.choice(data, size = size_per_sample)
     #bins = np.linspace(0.0, np.amax(sample_new), n_bins + 1)
     #bins_centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins)-1)])
 
@@ -109,7 +109,6 @@ def plot_histogram_error(data, size_per_sample, n_bins, heights, errors):
 
     xspace = np.linspace(0.0, np.amax(data), 10000)
     
-    plt.figure(figsize=(6,6));
     plt.errorbar(fixed_bin_centers, heights/total_area, yerr= (1.96 * errors)/total_area, 
                 marker = 'o', markersize = 1.5 , linestyle = 'none', 
                 elinewidth = 0.5 , capsize=4.0 , capthick=0.5) ; 
