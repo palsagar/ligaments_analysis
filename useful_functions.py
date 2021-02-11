@@ -111,7 +111,7 @@ def plot_histogram_error(data, n_bins, heights, errors):
     
     plt.errorbar(fixed_bin_centers, heights/total_area, yerr= (1.96 * errors)/total_area, 
                 marker = 'o', markersize = 1.5 , linestyle = 'none', 
-                elinewidth = 0.5 , capsize=4.0 , capthick=0.5) ; 
+                elinewidth = 0.5 , capsize=4.0 , capthick=0.5, label = "Ensemble Averaged Histogram") ; 
     plt.yscale('log', basey=10);
     plt.ylabel("PDF", fontsize=14); 
     plt.xlabel("$D/W$", fontsize=14);
@@ -137,6 +137,10 @@ def lognorm(x, mu_log, sigma_log):
 def poisson(x, lam): 
     import numpy as np
     return (3.0 * x**2.0 * lam * np.exp(-1.0 * lam * x**3.0) )
+
+def linear(x, m, c):
+    return m * x + c  
+
 
 def fit(x,y, func):
     from scipy.optimize import curve_fit
@@ -184,6 +188,7 @@ def stratify_sampling(x, n_samples, stratify):
     samples = x[np.concatenate(sampled_idcs), ...]
     
     return samples
+
 
     
 
