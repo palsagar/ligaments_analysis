@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/sagar/anaconda3/envs/ligaments/bin/python",
+    "python.pythonPath": "/home/sagar/anaconda3/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }
