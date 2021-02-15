@@ -138,6 +138,10 @@ def poisson(x, lam):
     import numpy as np
     return (3.0 * x**2.0 * lam * np.exp(-1.0 * lam * x**3.0) )
 
+def pareto(x,A,B):
+    return A * x ** (-1.0 * B)
+
+
 def linear(x, m, c):
     return m * x + c  
 
