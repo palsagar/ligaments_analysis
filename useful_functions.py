@@ -134,13 +134,22 @@ def lognorm(x, mu_log, sigma_log):
     return ( (1.0/(x * sigma_log * np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ( (np.log(x) - mu_log)/sigma_log)**2) )
 
 
-def poisson(x, lam): 
+def poisson(x, A,B): 
     import numpy as np
-    return (3.0 * x**2.0 * lam * np.exp(-1.0 * lam * x**3.0) )
+    return (A * np.exp(-1.0 * B * x) )
 
 def poisson_2(x, A, lam): 
     import numpy as np
     return (A * np.exp(-1.0 * lam * x**3.0) )
+
+def poisson_vol(x, A, B): 
+    import numpy as np
+    return (A * x**2.0 * np.exp(-1.0 * B * x**3.0) )
+
+def poisson_std(x, A, B): 
+    import numpy as np
+    return (A * np.exp(-1.0 * B * x))
+
 
 def pareto(x,A,B):
     return A * x ** (-1.0 * B)
