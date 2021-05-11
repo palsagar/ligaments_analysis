@@ -121,8 +121,11 @@ def plot_histogram_error(data, n_bins, heights, errors):
 
 def gauss(x, mu, sigma):
     import numpy as np
-
     return ( (1.0/(sigma*np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ((x - mu)/sigma)**2) )
+
+def gauss_d6(x, mu, sigma):
+    import numpy as np
+    return ( (1.0/(sigma*np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ((x**3.0 - mu**3.0)/sigma)**2) )
 
 def gamma_n(x, a, b):
     from scipy.special import gamma
