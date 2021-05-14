@@ -123,6 +123,14 @@ def gauss(x, mu, sigma):
     import numpy as np
     return ( (1.0/(sigma*np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ((x - mu)/sigma)**2) )
 
+def test_exp(x, A, B, C):
+    import numpy as np
+    return ( A * np.exp(-x**B/C) )
+
+def gauss_2(x, A, mu, sigma):
+    import numpy as np
+    return  A * np.exp(-(x-mu)**2.0 / (2.0*sigma**2.0) )
+
 def gauss_d6(x, mu, sigma):
     import numpy as np
     return ( (1.0/(sigma*np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ((x**3.0 - mu**3.0)/sigma)**2) )
@@ -165,7 +173,7 @@ def linear(x, m, c):
 def fit(x,y, func):
     from scipy.optimize import curve_fit
 
-    popt, pcov = curve_fit(func, xdata=x, ydata=y)
+    popt, pcov = curve_fit(func, xdata=x, ydata=y, maxfev=100000)
     return popt, pcov
   
 
@@ -210,6 +218,7 @@ def stratify_sampling(x, n_samples, stratify):
     return samples
 
 
-    
+def dummy():
+    return "Check passed hahahah! "
 
 
