@@ -162,6 +162,11 @@ def poisson_std(x, A, B):
     return (A * np.exp(-1.0 * B * x))
 
 
+def poisson_new(x,A,lamb):
+    import numpy as np
+    k = (6.0 / 8.0)**(1.0/3.0)
+    return (A * (lamb/k) * x**2.0 * np.exp(-1.0 * (lamb/k) * x**3.0))
+
 def pareto(x,A,B):
     return A * x ** (-1.0 * B)
 
