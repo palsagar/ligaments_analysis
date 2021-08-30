@@ -123,6 +123,10 @@ def gauss(x, mu, sigma):
     import numpy as np
     return ( (1.0/(sigma*np.sqrt(2.0*np.pi))) * np.exp(-0.5 * ((x - mu)/sigma)**2) )
 
+def gauss_test(x, A, mu, sigma):
+    import numpy as np
+    return ( A * np.exp(-0.5 * ((x - mu)/sigma)**2) )
+
 def test_exp(x, A, B, C):
     import numpy as np
     return ( A * np.exp(-x**B/C) )
